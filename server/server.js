@@ -39,17 +39,28 @@ function startServer(port) {
     });
 
     app.get("/log-entry/:entryID", (req, res, next) => {
-        let entryID = req.params.entryID || "latest";
+        let entryID = -1;
+        try {
+            let entryID = parseInt(req.params.entryID);
+        } catch(e) { }
 
         let session = driver.session();
-        session.run(`MATCH (qe:QuestLogEntry { entryID: $id }) RETURN qe`, { id: 1 })
+
+        let query;
+        if(entryID == -1) 
+            query = "MATCH (qe:QuestLogEntry) RETURN qe ORDER BY qe.date DESC LIMIT 1";
+        else
+            query = `MATCH (qe:QuestLogEntry { entryID: $id }) RETURN qe LIMIT 1`;
+
+        session.run(query, { id: entryID })
             .then(results => {
-                if(!results || results.records.length == 0)
+                if(!results || results.records.length == 0) {
+                    res.status(404).send();
                     return;
+                }
 
                 let record = results.records[0].get("qe");
                 session.close();
-
                 res.json(record.properties);
             });
     });

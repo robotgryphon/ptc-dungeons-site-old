@@ -182,11 +182,11 @@ dl.two-column {
 }
 
 article {
-    border-left: 3px solid antiquewhite;
-    padding-left: 1em;
-    margin-left: .5em;
-
+    padding: .4em 1em;
     margin-bottom: 1.5em;
+
+    background-color: lighten(cornflowerblue, 25);
+    border-left: .4em solid cornflowerblue;
 
     div {
         font-family: 'Courier New', Courier, monospace;

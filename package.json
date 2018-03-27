@@ -6,7 +6,8 @@
   "author": "Ted Senft (@robotgryphon)",
   "license": "ISC",
   "scripts": {
-    "watch": "webpack --watch"
+    "watch": "webpack --watch",
+    "watch:styles": "sass --watch source/styles:public/styles"
   },
   "devDependencies": {
     "@types/markdown-it": "0.0.4",

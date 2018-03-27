@@ -1,7 +1,7 @@
 //@ts-ignore
 import Navigo from "navigo";
 
-import loadQuestEntries from "./quests";
+import { loadQuestEntries, loadQuestEntry } from "./quests";
 
 interface Mapping {
     [key: string]: IPageMapping
@@ -33,8 +33,7 @@ let pageMapping: Mapping = {
 
     "quest-log": { 
         file: "quest-log",
-        pages: ["quest-log"],
-        scripts: [ "quest" ]
+        pages: ["quest-log"]
     },
 
     "bios": { 
@@ -67,24 +66,33 @@ for(let mappingKey in pageMapping) {
 // DEfault route, called for "home page"
 router.on(() => loadPage("home"));
 
+router.on("/quest-log/entry/:id", (params: any) => {
+    loadPage("quest-log-entry")
+        .then(_ => loadQuestEntry(params.id));
+});
+
 // Not found page
 router.notFound((query: any) => loadPage("not-found"));
 
 // Create router and load first route
 router.resolve();
 
-function loadPage(page: string) {
-    fetch(`../pages/${page}.html`)
-        .then((res) => {
-            return res.text();
-        })
+function loadPage(page: string): Promise<void> {
+    return new Promise((res: Function, rej: Function) => {
+        fetch(`../pages/${page}.html`)
+            .then((res: any) => {
+                return res.text();
+            })
 
-        .then((data) => {
-            let main = document.querySelector("main");
-            if (!main) return;
+            .then((data: any) => {
+                let main = document.querySelector("main");
+                if (!main) return;
 
-            main.innerHTML = data;
+                main.innerHTML = data;
 
-            if(page == "quest-log") loadQuestEntries();
+                if(page == "quest-log") loadQuestEntries();
+
+                res();
+            });
         });
 }
