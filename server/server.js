@@ -25,7 +25,7 @@ function startServer(port) {
     
     app.get("/log-entries", (req, res, next) => {
         let session = driver.session();
-        session.run(`MATCH (qe:QuestLogEntry) RETURN qe LIMIT 10`)
+        session.run(`MATCH (qe:QuestLogEntry) RETURN qe ORDER BY qe.date DESC LIMIT 10`)
             .then(results => {
                 if(!results || results.records.length == 0)
                     return;

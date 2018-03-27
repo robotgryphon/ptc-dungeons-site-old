@@ -6,7 +6,7 @@
   "author": "Ted Senft (@robotgryphon)",
   "license": "ISC",
   "scripts": {
-    "debug": "webpack-dev-server"
+    "watch": "webpack --watch"
   },
   "devDependencies": {
     "@types/markdown-it": "0.0.4",
@@ -17,8 +17,7 @@
     "tslint": "^5.9.1",
     "typescript": "^2.7.2",
     "webpack": "^4.2.0",
-    "webpack-cli": "^2.0.13",
-    "webpack-copy-plugin": "0.0.4"
+    "webpack-cli": "^2.0.13"
   },
   "dependencies": {
     "dotenv": "^5.0.1",
