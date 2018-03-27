@@ -3,8 +3,7 @@ const html = require("html-webpack-plugin");
 module.exports = {
     mode: 'development',
     entry: {
-      "app": './source/scripts/app.ts',
-      "quests": "./source/scripts/quests.ts"
+      "app": './source/scripts/app.ts'
     },
     output: {
       path: __dirname + '/public',
@@ -20,7 +19,8 @@ module.exports = {
     },
     plugins: [
       new html({
-        template: "./source/index.html"
+        template: "./source/index.html",
+        inject: false
       })
     ]
   }
