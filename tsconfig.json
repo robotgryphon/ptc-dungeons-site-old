@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+      "module": "es6",
+      "target": "es5",
+      "rootDir": "source",
+      "outDir": "public",
+      "sourceMap": false,
+      "strict": true,
+      "moduleResolution": "node"
+  }
+}

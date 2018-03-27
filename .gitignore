@@ -1,0 +1,11 @@
+# Generated Public files
+public/scripts
+public/styles
+public/index.html
+
+node_modules
+.sass-cache
+.rpt2_cache
+
+.env
+project-info

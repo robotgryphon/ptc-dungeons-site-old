@@ -1,0 +1,50 @@
+// Thumbnail Grids
+// Used to create a nice array of thumbnails for various pages
+
+div.thumbnail-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-column-gap: 1em;
+    grid-row-gap: 1.4em;
+}
+
+.thumbnail {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    border: 1px solid darken(white, 80);
+    background-color: darken(white, 30);
+    padding: .5em;
+
+    .thumbnail-image {
+        flex-grow: 1;
+        height: 10em;
+        width: 95%;
+        overflow: hidden;
+        display: block;
+        border: 1px solid black;
+
+        img {
+            max-width: 100%;
+        }
+    }
+
+    .thumbnail-text {
+        text-align: left;
+        justify-self: flex-end;
+        display: block;
+        width: 100%;
+        padding: .5em;
+
+        h4 {
+            margin: 0;
+            padding: 0;
+        }
+
+        p {
+            margin: 0;
+            padding: 0;
+        }
+    }
+}
