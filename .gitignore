@@ -1,7 +1,5 @@
 # Generated Public files
-public/scripts
-public/styles
-public/index.html
+public
 
 node_modules
 .sass-cache
