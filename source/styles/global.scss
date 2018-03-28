@@ -4,7 +4,7 @@ body {
     margin: 0;
     padding: 0;
 
-    background: #b5966a url("../media/faded-paper.jpeg");
+    background: #b5966a url("../media/faded-paper.jpg");
     background-attachment: scroll;
     background-size: cover;
     background-repeat: no-repeat;
@@ -195,3 +195,4 @@ article {
 
 @import "_responsive-nav";
 @import "_thumbnail-grid";
+@import "_forms";
