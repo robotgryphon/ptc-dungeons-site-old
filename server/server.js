@@ -41,7 +41,7 @@ function startServer(port) {
     app.get("/log-entry/:entryID", (req, res, next) => {
         let entryID = -1;
         try {
-            let entryID = parseInt(req.params.entryID);
+            entryID = parseInt(req.params.entryID);
         } catch(e) { }
 
         let session = driver.session();
