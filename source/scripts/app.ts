@@ -36,6 +36,11 @@ let pageMapping: Mapping = {
         pages: ["quest-log"]
     },
 
+    "join-the-club": {
+        file: "join-the-club",
+        pages: ["join", "join-the-club"]
+    },
+
     "bios": { 
         file: "bios",
         pages: ["character-bios", "bios"] 

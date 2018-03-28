@@ -18,9 +18,6 @@ export function loadQuestEntries() {
             }
 
             json.forEach((entry: any) => {
-                
-                console.log(entry);
-
                 let article = document.createElement("article");
                 if(entry.title) {
                     let title = document.createElement("h2");
@@ -53,16 +50,6 @@ export function loadQuestEntries() {
 
                 link.appendChild(linkAnchor);
                 article.appendChild(link);
-
-                // if(entry.content) {
-                //     let div = document.createElement("div");
-                //     let content64 = entry.content;
-                //     let content = atob(content64);
-
-                //     div.innerHTML = md.render(content);
-
-                //     article.appendChild(div);
-                // }
 
                 container.appendChild(article);
             });
