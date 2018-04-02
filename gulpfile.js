@@ -1,49 +1,58 @@
-const gulp = require("gulp");
-const sass = require("gulp-sass");
-const path = require("path");
+const gulp          = require("gulp");
+const sass          = require("gulp-sass");
+const path          = require("path");
+const typescript    = require("gulp-typescript");
+const del           = require("del");
 
-let paths = {};
-paths.source =  path.join(__dirname, "source");
-paths.pages =   path.join(paths.source, "pages");
-paths.media =   path.join(paths.source, "media");
-paths.styles =  path.join(paths.source, "styles");
+let source = {};
+source.root =  "source";
 
-paths.final = {};
-paths.final.root =      path.join(__dirname, "public");
-paths.final.pages =     path.join(paths.final.root, "pages");
-paths.final.media =     path.join(paths.final.root, "media");
-paths.final.styles =    path.join(paths.final.root, "styles");
+source.client =  path.join(source.root, "client");
+source.pages =   path.join(source.client, "pages");
+source.media =   path.join(source.client, "media");
+source.styles =  path.join(source.client, "/styles");
 
-gulp.task("build", ["build::copy", "build::styles"]);
+source.server =  path.join(source.root, "server");
 
-gulp.task("build::copy", ["copy::pages", "copy::media"]);
+built = {};
+built.root =      path.join(__dirname, "build");
 
-gulp.task("build::styles", () => {
-  let stream = gulp.src(paths.styles + '/**/*.scss')
+built.client =    path.join(built.root, "client");
+built.pages =     path.join(built.client, "pages");
+built.media =     path.join(built.client, "media");
+built.styles =    path.join(built.client, "styles");
+
+built.server =    path.join(built.root, "server");
+
+let tsProject = typescript.createProject(path.join(__dirname, "tsconfig.json"));
+let serverp = typescript.createProject("tsconfig.json", { rootDir: source.server });
+
+gulp.task("clean", () => {
+    return del(built.root);
+})
+
+let styles = gulp.task("build::styles", () => {
+  return gulp.src(source.styles + '/**/*.scss')
     .pipe(sass())
-    .pipe(gulp.dest(paths.final.styles));
+    .pipe(gulp.dest(built.styles));
+});
 
-  return stream;
+gulp.task("build::server", () => {
+    return gulp
+        .src(source.server + "/**/*.ts")
+        .pipe(serverp())
+        .js.pipe(gulp.dest(built.server));
 });
 
 gulp.task("copy::pages", () => {
-    let stream = gulp.src(paths.pages + '/**/*.html')
-        .pipe(gulp.dest(paths.final.pages));
-    return stream;
+    return gulp.src(source.client + '/**/*.html')
+        .pipe(gulp.dest(built.client));
 });
 
 gulp.task("copy::media", () => {
-    let media = gulp.src(paths.media + "/**/*")
-        .pipe(gulp.dest(paths.final.media));
-    return media;    
+    return gulp.src(source.media + "/**/*")
+        .pipe(gulp.dest(built.media));
 });
 
-gulp.task("watch", ["watch::styles", "watch::pages"]);
-
-gulp.task("watch::styles", () => {
-    gulp.watch(path.join(paths.styles, "**/*.scss"), ["build::styles"]);
-});
-
-gulp.task("watch::pages", () => {
-    gulp.watch(path.join(paths.pages, "**/*.html"), ["copy::pages"]);
-});
+// build: copies pages over and builds media and styles
+gulp.task("build", gulp.series("clean", gulp.parallel("copy::pages", "copy::media", "build::styles", "build::server")));

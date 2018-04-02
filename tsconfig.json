@@ -1,13 +1,11 @@
 {
   "compilerOptions": {
-      "module": "es6",
       "target": "es5",
-      "rootDir": "source",
-      "outDir": "public",
       "sourceMap": false,
       "strict": true,
       "moduleResolution": "node",
       "strictNullChecks": false,
-      "lib": ["dom", "es6", "es2015.promise"]
+      "lib": ["dom", "es6", "es2015.promise"],
+      
   }
 }

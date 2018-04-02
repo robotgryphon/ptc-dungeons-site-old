@@ -3,10 +3,10 @@ const html = require("html-webpack-plugin");
 module.exports = {
     mode: 'development',
     entry: {
-      "app": './source/scripts/app.ts'
+      "app": './source/client/scripts/app.ts'
     },
     output: {
-      path: __dirname + '/public',
+      path: __dirname + '/build/client',
       filename: 'scripts/[name].js'
     },
     resolve: {
@@ -19,7 +19,7 @@ module.exports = {
     },
     plugins: [
       new html({
-        template: "./source/index.html",
+        template: "./source/client/index.html",
         inject: false
       })
     ]
