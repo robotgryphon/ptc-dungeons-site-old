@@ -11,6 +11,7 @@ task("client:scripts", () => {
 	let entry = join(client.source.scripts, "app.ts");
 	return browserify({ entries: [entry] })
 		.plugin("tsify", { target: "commonjs" })
+		.transform("uglifyify", { global: true })
 		.bundle()
 		.pipe(source("app.js"))
 		.pipe(dest(client.dest.scripts));
