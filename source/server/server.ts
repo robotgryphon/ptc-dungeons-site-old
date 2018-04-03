@@ -1,20 +1,22 @@
-const express = require("express");
+import * as express from "express";
+import { Request, Response, NextFunction } from "express";
+
 const path = require("path");
 const config = require("dotenv");
 config.config();
 
-let driver = require("./neo4j");
+import driver from "./data/neo4j";
 
 // Ports to try and use
-const port = process.env.PORT || 8080;
+const port = parseInt(process.env.PORT) || 8080;
 
 // Location of files
-const staticPath = path.join(__dirname, "..", "public");
+const staticPath = path.join(__dirname, "..", "client");
 
 startServer(port);
 
 // Implementation of server
-function startServer(port) {
+function startServer(port: number) {
     console.log("Creating express server.");
     var app = express();
 
@@ -23,14 +25,14 @@ function startServer(port) {
     console.log(`Hosting from ${staticPath}...`);
     app.use(express.static(staticPath));
     
-    app.get("/log-entries", (req, res, next) => {
+    app.get("/log-entries", (req: Request, res: Response, next: NextFunction) => {
         let session = driver.session();
         session.run(`MATCH (qe:QuestLogEntry) RETURN qe ORDER BY qe.date DESC LIMIT 10`)
             .then(results => {
                 if(!results || results.records.length == 0)
                     return;
 
-                let entries = [];
+                let entries: any[] = [];
                 results.records.map(e => entries.push(e.get("qe").properties));
                 session.close();
 
@@ -66,6 +68,10 @@ function startServer(port) {
     });
 
     app.get("/", (req, res, next) => {
+        res.sendFile(path.join(staticPath, "index.html"));
+    });
+
+    app.get("*", (req, res, next) => {
         res.sendFile(path.join(staticPath, "index.html"));
     });
 

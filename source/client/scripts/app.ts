@@ -1,5 +1,6 @@
 //@ts-ignore
-import Navigo from "navigo";
+import * as Navigo from "navigo";
+
 
 import { loadQuestEntries, loadQuestEntry } from "./quests";
 
