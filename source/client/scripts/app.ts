@@ -68,6 +68,7 @@ let router = new Navigo(null, true, "#");
 // Map URLs to files
 for(let mappingKey in pageMapping) {
     let mapping: IPageMapping = pageMapping[mappingKey];
+    if(!mapping.pages) continue;
     mapping.pages.forEach(page => {
         router.on(page, () => loadPage(mappingKey));
     });
