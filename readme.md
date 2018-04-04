@@ -1,5 +1,7 @@
 # PTC Dungeons and Dragons Club Website
 
+[![Build Status](https://travis-ci.org/robotgryphon/ptc-dungeons-site.svg?branch=master)](https://travis-ci.org/robotgryphon/ptc-dungeons-site)
+
 To install, download or clone the repository and use NPM to install the assets.
 
 Make sure you have a `.env` file set up with the Neo4J configuration to connect to, so
