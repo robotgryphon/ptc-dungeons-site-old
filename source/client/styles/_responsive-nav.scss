@@ -1,4 +1,6 @@
-@media screen and (max-width: 600px) {
+@import "_breakpoints";
+
+@media screen and (max-width: $mobile) {
     header {
         height: fit-content !important;
     }
@@ -18,7 +20,7 @@
     }
 }
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: $desktop) {
     nav {
         #inner {
             grid-template-columns: repeat(3, 1fr);
@@ -27,7 +29,7 @@
 }
 
 
-@media screen and (min-width: 1000px) and (max-width: 1440px) {
+@media screen and (min-width: $desktop) and (max-width: $desktop-lg) {
     nav {
         #inner {
             grid-template-columns: repeat(5, 1fr);
@@ -35,7 +37,7 @@
     }
 }
 
-@media screen and (min-width: 1440px) {
+@media screen and (min-width: $desktop-lg) {
     nav #inner { 
         grid-template-columns: repeat(7, 1fr);
     }

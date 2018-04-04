@@ -1,5 +1,5 @@
 
-import { task, src, dest, parallel, series } from "gulp";
+import { task, src, dest, parallel, series, watch } from "gulp";
 import * as browserify from "browserify";
 import { join } from "path";
 import * as sass from "gulp-sass";
@@ -22,6 +22,8 @@ task("client:pages", () => {
 		.pipe(dest(client.dest.root));
 });
 
+let pages = task("client:pages");
+
 task("client:media", () => {
 	return src(client.source.media + "/**/*")
 		.pipe(dest(client.dest.media));
@@ -34,3 +36,8 @@ task("client:styles", () => {
 });
 
 task("client", parallel("client:scripts", "client:pages", "client:media", "client:styles"));
+
+task("watch:client:pages", () => {
+	let test = client.source.pages + "*.html";
+	watch(test, pages);
+})

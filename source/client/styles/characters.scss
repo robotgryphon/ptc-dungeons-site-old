@@ -1,0 +1,13 @@
+@import "_colors";
+
+div.character {
+    display: flex;
+    flex-direction: column;
+    padding: 1em;
+    margin-bottom: 1em;
+    background-color: lighten($gold, 30);
+
+    border: 3px double black;
+    border-top-left-radius: 1em;
+    border-bottom-right-radius: 1em;
+}

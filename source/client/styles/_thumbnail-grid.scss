@@ -1,7 +1,7 @@
 // Thumbnail Grids
 // Used to create a nice array of thumbnails for various pages
 
-div.thumbnail-grid {
+.thumbnail-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-column-gap: 1em;
@@ -11,8 +11,10 @@ div.thumbnail-grid {
 .thumbnail {
     position: relative;
     align-items: center;
+    width: 100%;
 
     .thumbnail-image {
+        width: 100%;
         overflow: hidden;
         display: block;
 

@@ -11,13 +11,13 @@ inside the server directory.
 
 ## Completed Pages:
 
-- [ ] Home Page
+- [x] Home Page
 - [ ] About the Club
-- [ ] What is DND?
+- [x] What is DND?
 - [x] Quest Log
     - [x] Full log listing
     - [x] Individual log entries
 - [x] Join the Club
-- [ ] Character Bios
-- [ ] Resources
+- [x] Character Bios
+- [x] Resources
 - [x] Site Credits
