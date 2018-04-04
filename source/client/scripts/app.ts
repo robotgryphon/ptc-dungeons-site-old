@@ -11,7 +11,7 @@ interface Mapping {
 
 interface IPageMapping {
     title?: string,
-    pages: string[],
+    pages?: string[],
     scripts?: string[]
 }
 
@@ -55,6 +55,10 @@ let pageMapping: Mapping = {
 
     "credits": { 
         pages: ["credits"] 
+    },
+       
+    "quest-log-entry": {
+        title: "Quest Entry"
     }
 }
 
