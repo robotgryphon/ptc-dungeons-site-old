@@ -91,7 +91,7 @@ function loadPage(page: string): Promise<void> {
             })
 
             .then((data: any) => {
-                let title = pageMapping[page].title;
+                let title = pageMapping[page].title || "";
                 document.title = (title ? `${title} | ` : "") +  `PTC Dungeons and Dragons Club`;
 
                 let main = document.querySelector("main");
