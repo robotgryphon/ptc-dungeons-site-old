@@ -3,13 +3,14 @@ import * as Navigo from "navigo";
 
 
 import { loadQuestEntries, loadQuestEntry } from "./quests";
+import { loadCharacters } from "./characters";
 
 interface Mapping {
     [key: string]: IPageMapping
 }
 
 interface IPageMapping {
-    file: string,
+    title?: string,
     pages: string[],
     scripts?: string[]
 }
@@ -18,42 +19,41 @@ interface IPageMapping {
 // Keys are filenames, value is an array of all URLs that map to it
 let pageMapping: Mapping = {
     "home": {
-        file: "home",
+        title: "Home Page",
         pages: ["home"] 
     },
 
     "about": { 
-        file: "about",
+        title: "About the Club",
         pages: ["about"] 
     },
 
     "about-dnd": { 
-        file: "about-dnd",
+        title: "About Dungeons and Dragons",
         pages: ["about-dnd", "what-is-dnd"] 
     },
 
     "quest-log": { 
-        file: "quest-log",
+        title: "Nicole's Quest Log",
         pages: ["quest-log"]
     },
 
     "join-the-club": {
-        file: "join-the-club",
+        title: "Join the Club",
         pages: ["join", "join-the-club"]
     },
 
     "bios": { 
-        file: "bios",
+        title: "Character Bios",
         pages: ["character-bios", "bios"] 
     },
 
     "resources": { 
-        file: "resources",
+        title: "Resources",
         pages: ["resources"] 
     },
 
     "credits": { 
-        file: "credits",
         pages: ["credits"] 
     }
 }
@@ -65,7 +65,7 @@ let router = new Navigo(null, true, "#");
 for(let mappingKey in pageMapping) {
     let mapping: IPageMapping = pageMapping[mappingKey];
     mapping.pages.forEach(page => {
-        router.on(page, () => loadPage(mapping.file));
+        router.on(page, () => loadPage(mappingKey));
     });
 }
 
@@ -91,12 +91,23 @@ function loadPage(page: string): Promise<void> {
             })
 
             .then((data: any) => {
+                let title = pageMapping[page].title;
+                document.title = (title ? `${title} | ` : "") +  `PTC Dungeons and Dragons Club`;
+
                 let main = document.querySelector("main");
                 if (!main) return;
 
                 main.innerHTML = data;
 
-                if(page == "quest-log") loadQuestEntries();
+                switch(page.toLowerCase()) {
+                    case "bios":
+                        loadCharacters();
+                        break;
+
+                    case "quest-log":
+                        loadQuestEntries();
+                        break;
+                }
 
                 res();
             });

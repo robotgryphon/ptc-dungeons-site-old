@@ -1,0 +1,19 @@
+@import "_breakpoints";
+
+.book {
+    width: 180px;
+}
+
+.book img {
+    width: 160px;
+}
+
+td {
+    vertical-align: top;
+}
+
+@media screen and (max-width: $mobile) {
+    .book, .price {
+        display: none;
+    }
+}

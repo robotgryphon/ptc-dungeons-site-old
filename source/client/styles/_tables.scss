@@ -1,0 +1,35 @@
+@import "_colors";
+
+table {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+table.full-width {
+    width: 100%;
+}
+
+tr, td, th {
+    text-align: left;
+    padding: .4em;
+}
+
+thead tr {
+    background-color: $dark-gold;
+    color: white;
+}
+
+tbody tr {
+    background-color: antiquewhite;
+}
+
+table.banded tbody tr:nth-child(even) {
+    background-color: lighten($dark-gold, 15);
+    color: white;
+}
+
+table a {
+    color: currentColor;
+    text-decoration: none;
+    border-bottom: 1px dashed currentColor;
+}

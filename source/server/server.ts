@@ -6,6 +6,7 @@ const config = require("dotenv");
 config.config();
 
 import driver from "./data/neo4j";
+import { Character } from "./data/character";
 
 // Ports to try and use
 const port = parseInt(process.env.PORT) || 8080;
@@ -65,6 +66,25 @@ function startServer(port: number) {
                 session.close();
                 res.json(record.properties);
             });
+    });
+
+    app.get("/characters", async (req: Request, res: Response) => {
+        let query = `MATCH (c:Character) RETURN c ORDER BY c.namef`;
+        let session = driver.session();
+        let results = await session.run(query);
+
+        if(!results || results.records.length == 0) {
+            res.json({
+                errored: true,
+                reason: "No characters fetched."
+            });
+
+            return;
+        }
+
+        session.close();
+        let characters: Character[] = results.records.map(c => new Character(c.get("c").properties));
+        res.json(characters);
     });
 
     app.get("/", (req, res, next) => {
