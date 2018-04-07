@@ -89,7 +89,7 @@ function startServer(port: number) {
     });
 
     app.get("/characters", async (req: Request, res: Response) => {
-        let query = `MATCH (c:Character) RETURN c ORDER BY c.namef`;
+        let query = `MATCH (c:Character) WHERE NOT EXISTS (c.is_dead) OR c.is_dead <> true RETURN c ORDER BY c.namef`;
         
         let session: Session;
         try { session = driver.session(); }
