@@ -2,58 +2,73 @@ import * as MarkdownIt from "markdown-it";
 
 let md = new MarkdownIt();
 
-export function loadQuestEntries() {
-    fetch("/log-entries")
-        .then(text => {
-            return text.json();
-        })
+export async function loadQuestEntries() {
+    let entries: Response;
+    let entryJson: any[];
+    let container = document.querySelector("#quest-entry-container") || document.createElement("div");
 
-        .then(json => {
-            let container = document.querySelector("#quest-entry-container") || document.createElement("div");
-            if(!container.id) {
-                container.id = "quest-entry-container";
+    try {
+        entries = await fetch("/log-entries");
+        entryJson = await entries.json();
+        
+        if(entries.status == 503)
+            throw new Error((entryJson as any).message);
+    }
 
-                //@ts-ignore
-                document.querySelector("main").appendChild(container);
-            }
+    catch(e) {
+        container.innerHTML = e;
+        return;
+    }
 
-            json.forEach((entry: any) => {
-                let article = document.createElement("article");
-                if(entry.title) {
-                    let title = document.createElement("h2");
-                    title.innerText = entry.title;
-                    article.appendChild(title);
-                }
-                
-                if(entry.date) {
-                    let date = document.createElement("div");
-                    date.classList.add("log-entry-date");
+    if(!container.id) {
+        container.id = "quest-entry-container";
 
-                    let datef = new Date(entry.date);
-                    date.innerText = datef.toLocaleString("en-US", {
-                        month: "long",
-                        day: "numeric",
-                        year: "numeric",
-                        hour: "numeric",
-                        minute: "numeric"
-                    });
+        //@ts-ignore
+        document.querySelector("main").appendChild(container);
+    }
 
-                    article.appendChild(date);
-                }
+    console.log(entryJson);
+    entryJson.forEach((entry: any) => {
+        let e = generateEntry(entry);
+        container.appendChild(e);
+    });
+}
 
-                let link = document.createElement("div");
-                link.classList.add("log-entry-link");
-                
-                let linkAnchor = document.createElement("a");
-                linkAnchor.href = "/#/quest-log/entry/" + entry.entryID.low;
-                linkAnchor.innerText = "Read Entry";
+function generateEntry(entry: any): HTMLElement {
+    let article = document.createElement("article");
+    if(entry.title) {
+        let title = document.createElement("h2");
+        title.innerText = entry.title;
+        article.appendChild(title);
+    }
+    
+    if(entry.date) {
+        let date = document.createElement("div");
+        date.classList.add("log-entry-date");
 
-                link.appendChild(linkAnchor);
-                article.appendChild(link);
-
-                container.appendChild(article);
-            });
+        let datef = new Date(entry.date);
+        date.innerText = datef.toLocaleString("en-US", {
+            month: "long",
+            day: "numeric",
+            year: "numeric",
+            hour: "numeric",
+            minute: "numeric"
         });
+
+        article.appendChild(date);
+    }
+
+    let link = document.createElement("div");
+    link.classList.add("log-entry-link");
+    
+    let linkAnchor = document.createElement("a");
+    linkAnchor.href = "/#/quest-log/entry/" + entry.entryID.low;
+    linkAnchor.innerText = "Read Entry";
+
+    link.appendChild(linkAnchor);
+    article.appendChild(link);
+
+    return article;
 }
 
 export function loadQuestEntry(id: number) {

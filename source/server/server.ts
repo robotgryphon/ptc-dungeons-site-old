@@ -7,6 +7,7 @@ config.config();
 
 import driver from "./data/neo4j";
 import { Character } from "./data/character";
+import { Session } from "neo4j-driver/types/v1";
 
 // Ports to try and use
 const port = parseInt(process.env.PORT) || 8080;
@@ -27,7 +28,17 @@ function startServer(port: number) {
     app.use(express.static(staticPath));
     
     app.get("/log-entries", (req: Request, res: Response, next: NextFunction) => {
-        let session = driver.session();
+        let session: Session;
+        try { session = driver.session(); }
+        catch {
+            res.status(503).json({
+                errored: true,
+                message: "Database Unavailable."
+            });
+
+            return;
+        }
+
         session.run(`MATCH (qe:QuestLogEntry) RETURN qe ORDER BY qe.date DESC LIMIT 10`)
             .then(results => {
                 if(!results || results.records.length == 0)
@@ -47,7 +58,16 @@ function startServer(port: number) {
             let entryID = parseInt(req.params.entryID);
         } catch(e) { }
 
-        let session = driver.session();
+        let session: Session;
+        try { session = driver.session(); }
+        catch {
+            res.status(503).json({
+                errored: true,
+                message: "Database Unavailable."
+            });
+
+            return;
+        }
 
         let query;
         if(entryID == -1) 
@@ -70,7 +90,18 @@ function startServer(port: number) {
 
     app.get("/characters", async (req: Request, res: Response) => {
         let query = `MATCH (c:Character) RETURN c ORDER BY c.namef`;
-        let session = driver.session();
+        
+        let session: Session;
+        try { session = driver.session(); }
+        catch {
+            res.status(503).json({
+                errored: true,
+                message: "Database Unavailable."
+            });
+
+            return;
+        }
+
         let results = await session.run(query);
 
         if(!results || results.records.length == 0) {
